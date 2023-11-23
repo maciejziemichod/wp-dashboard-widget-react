@@ -36,6 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'GRAPH_WIDGET_VERSION', '1.0.0' );
+define( 'GRAPH_WIDGET_OPTION_KEY', 'graph_widget_rest_data' );
 
 /**
  * The code that runs during plugin activation.
@@ -79,4 +80,5 @@ function run_graph_widget() {
 	$plugin->run();
 
 }
+
 run_graph_widget();

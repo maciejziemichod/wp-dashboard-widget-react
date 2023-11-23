@@ -25,7 +25,35 @@
  * @package    Graph_Widget
  */
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 // If uninstall not called from WordPress, then exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+class Graph_Widget_Uninstaller {
+	public static function uninstall(): void {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
+
+		check_admin_referer( 'bulk-plugins' );
+
+		if ( __FILE__ != WP_UNINSTALL_PLUGIN ) {
+			return;
+		}
+
+		if ( ! defined( 'GRAPH_WIDGET_OPTION_KEY' ) ) {
+			wp_die( '"GRAPH_WIDGET_OPTION_KEY" constant wasn\'t found during activation' );
+		}
+
+		delete_option( GRAPH_WIDGET_OPTION_KEY );
+	}
+
+}
+
+Graph_Widget_Uninstaller::uninstall();

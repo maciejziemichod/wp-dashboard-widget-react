@@ -30,7 +30,11 @@ class Graph_Widget_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+		if ( ! defined( 'GRAPH_WIDGET_OPTION_KEY' ) ) {
+			wp_die( '"GRAPH_WIDGET_OPTION_KEY" constant wasn\'t found during activation' );
+		}
 
+		add_option( GRAPH_WIDGET_OPTION_KEY, [ [ 'time' => 123, 'value' => 1 ], [ 'time' => 123, 'value' => 1 ] ] );
 	}
 
 }
