@@ -113,13 +113,12 @@ class Graph_Widget_Admin {
 	public function add_dashboard_widget(): void {
 		wp_add_dashboard_widget(
 			$this->widget_id,
-			esc_html__( 'Example Dashboard Widget', 'wporg' ),
-			[ $this, 'wporg_dashboard_widget_render' ]
+			'Graph Widget',
+			[ $this, 'render_widget' ]
 		);
 	}
 
-	public function wporg_dashboard_widget_render(): void {
-		// Display whatever you want to show.
-		esc_html_e( "Howdy! I'm a great Dashboard Widget.", "wporg" );
+	public function render_widget(): void {
+		echo '<div class="root"></div>';
 	}
 }
