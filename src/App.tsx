@@ -1,33 +1,49 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useEffect, useState } from "react";
+import { ErrorMessage } from "./components/ErrorMessage";
+import { LoadingSpinner } from "./components/LoadingSpinner";
+import { isDataValid } from "./utils/validation";
+import { DataItem } from "./types";
+
+declare const wpApiSettings: { root: string } | undefined;
 
 function App() {
-	const [count, setCount] = useState(0);
+	const restUrl = wpApiSettings?.root;
+
+	const [error, setError] = useState(restUrl ? null : "No REST URL found.");
+	const [data, setData] = useState<DataItem[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		fetch(`${restUrl}myplugin/v1/data`)
+			.then((res) => res.json())
+			.then((data: unknown) => {
+				if (!isDataValid(data)) {
+					setError("Incorrect format of data received from API");
+					return;
+				}
+
+				setData(data);
+			})
+			.catch((error) => {
+				setError(error.message);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	}, []);
+
+	if (isLoading) {
+		return <LoadingSpinner />;
+	}
+
+	if (error !== null) {
+		return <ErrorMessage message={error} />;
+	}
 
 	return (
-		<>
-			<div>
-				<a href="https://react.dev" target="_blank">
-					<img
-						src={reactLogo}
-						className="logo react"
-						alt="React logo"
-					/>
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
-		</>
+		<p>
+			hello world, rest: {restUrl}, data: {JSON.stringify(data)}
+		</p>
 	);
 }
 
