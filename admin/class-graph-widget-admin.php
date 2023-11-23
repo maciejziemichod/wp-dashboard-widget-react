@@ -29,7 +29,7 @@ class Graph_Widget_Admin {
 	 * @access   private
 	 * @var      string $plugin_name The ID of this plugin.
 	 */
-	private $plugin_name;
+	private string $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -38,20 +38,31 @@ class Graph_Widget_Admin {
 	 * @access   private
 	 * @var      string $version The current version of this plugin.
 	 */
-	private $version;
+	private string $version;
+
+	/**
+	 * ID of the dashboard widget.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $widget_id ID of the dashboard widget.
+	 */
+	private string $widget_id;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version The version of this plugin.
+	 * @param string $widget_id ID of the dashboard widget.
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( string $plugin_name, string $version, string $widget_id ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
+		$this->widget_id   = $widget_id;
 
 	}
 
@@ -99,4 +110,16 @@ class Graph_Widget_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'build/index.js', [], $this->version, [ 'strategy' => 'defer' ] );
 	}
 
+	public function add_dashboard_widget(): void {
+		wp_add_dashboard_widget(
+			$this->widget_id,
+			esc_html__( 'Example Dashboard Widget', 'wporg' ),
+			[ $this, 'wporg_dashboard_widget_render' ]
+		);
+	}
+
+	public function wporg_dashboard_widget_render(): void {
+		// Display whatever you want to show.
+		esc_html_e( "Howdy! I'm a great Dashboard Widget.", "wporg" );
+	}
 }

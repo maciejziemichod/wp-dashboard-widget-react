@@ -58,6 +58,15 @@ class Graph_Widget {
 	protected $version;
 
 	/**
+	 * ID of the dashboard widget.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $widget_id ID of the dashboard widget.
+	 */
+	private string $widget_id;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -73,6 +82,7 @@ class Graph_Widget {
 			$this->version = '1.0.0';
 		}
 		$this->plugin_name = 'graph-widget';
+		$this->widget_id   = "{$this->plugin_name}-dashboard-widget";
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -146,11 +156,11 @@ class Graph_Widget {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Graph_Widget_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Graph_Widget_Admin( $this->get_plugin_name(), $this->get_version(), $this->widget_id );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
+		$this->loader->add_action( 'wp_dashboard_setup', $plugin_admin, 'add_dashboard_widget' );
 	}
 
 	/**
