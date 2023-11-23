@@ -37,21 +37,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 class Graph_Widget_Uninstaller {
 	public static function uninstall(): void {
-		if ( ! current_user_can( 'activate_plugins' ) ) {
-			return;
-		}
-
-		check_admin_referer( 'bulk-plugins' );
-
-		if ( __FILE__ != WP_UNINSTALL_PLUGIN ) {
-			return;
-		}
-
-		if ( ! defined( 'GRAPH_WIDGET_OPTION_KEY' ) ) {
-			wp_die( '"GRAPH_WIDGET_OPTION_KEY" constant wasn\'t found during activation' );
-		}
-
-		delete_option( GRAPH_WIDGET_OPTION_KEY );
+		delete_option( 'graph_widget_rest_data' );
 	}
 
 }
