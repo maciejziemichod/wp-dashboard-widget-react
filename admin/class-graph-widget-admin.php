@@ -120,6 +120,5 @@ class Graph_Widget_Admin {
 
 	public function render_widget(): void {
 		echo '<div class="root"></div>';
-		var_dump( get_option( GRAPH_WIDGET_OPTION_KEY, [] ) );
 	}
 }
