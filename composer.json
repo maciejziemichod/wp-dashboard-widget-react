@@ -1,0 +1,25 @@
+{
+    "name": "maciejziemichod/graph-widget",
+    "autoload": {
+    },
+    "authors": [
+        {
+            "name": "maciejziemichod",
+            "email": "maciej.ziemichod@gmail.com"
+        }
+    ],
+    "scripts": {
+        "phpcs": "phpcs -ps . --standard=WordPress --ignore=*node_modules/*,*vendor/*,*build/*"
+    },
+    "require": {
+    },
+    "require-dev": {
+       "squizlabs/php_codesniffer": ">=3.7.2",
+        "wp-coding-standards/wpcs": ">=3.0.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
