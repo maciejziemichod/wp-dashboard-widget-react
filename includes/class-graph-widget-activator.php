@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin activation
  *
@@ -34,18 +33,26 @@ class Graph_Widget_Activator {
 			wp_die( '"GRAPH_WIDGET_OPTION_KEY" constant wasn\'t found during activation' );
 		}
 
-		add_option( GRAPH_WIDGET_OPTION_KEY, self::generateDummyData() );
+		add_option( GRAPH_WIDGET_OPTION_KEY, self::generate_dummy_data() );
 	}
 
-	private static function generateDummyData(): array {
-		$currentDate = new DateTime();
-		$data        = [];
+	/**
+	 * Used to generate dummy data for endpoint purposes.
+	 *
+	 * @return array
+	 */
+	private static function generate_dummy_data(): array {
+		$current_date = new DateTime();
+		$data         = array();
 
-		for ( $i = 59; $i >= 0; $i -- ) {
-			$timestamp = ( $currentDate->getTimestamp() - $i * 24 * 60 * 60 ) * 1000;
-			$value     = rand( 1, 100 );
+		for ( $i = 59; $i >= 0; $i-- ) {
+			$timestamp = ( $current_date->getTimestamp() - $i * 24 * 60 * 60 ) * 1000;
+			$value     = wp_rand( 1, 100 );
 
-			$data[] = [ 'timestamp' => $timestamp, 'value' => $value ];
+			$data[] = array(
+				'timestamp' => $timestamp,
+				'value'     => $value,
+			);
 		}
 
 		return $data;

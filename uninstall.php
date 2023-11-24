@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired when the plugin is uninstalled.
  *
@@ -35,11 +34,22 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
+/**
+ * Class responsible for handling actions on plugin uninstall
+ *
+ * @since      1.0.0
+ * @package    Graph_Widget
+ * @author     Maciej Ziemichód <devziemichod@gmail.com>
+ */
 class Graph_Widget_Uninstaller {
+	/**
+	 * Handles uninstall action
+	 *
+	 * @return void
+	 */
 	public static function uninstall(): void {
 		delete_option( 'graph_widget_rest_data' );
 	}
-
 }
 
 Graph_Widget_Uninstaller::uninstall();

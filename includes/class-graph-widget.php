@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -88,7 +87,6 @@ class Graph_Widget {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -113,21 +111,20 @@ class Graph_Widget {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-graph-widget-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-graph-widget-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-graph-widget-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-graph-widget-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-graph-widget-admin.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-graph-widget-admin.php';
 
 		$this->loader = new Graph_Widget_Loader();
-
 	}
 
 	/**
@@ -141,10 +138,9 @@ class Graph_Widget {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Graph_Widget_i18n();
+		$plugin_i18n = new Graph_Widget_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -213,5 +209,4 @@ class Graph_Widget {
 	public function get_loader() {
 		return $this->loader;
 	}
-
 }

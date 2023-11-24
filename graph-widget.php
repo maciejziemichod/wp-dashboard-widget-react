@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -78,7 +77,6 @@ function run_graph_widget() {
 
 	$plugin = new Graph_Widget();
 	$plugin->run();
-
 }
 
 run_graph_widget();

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
@@ -24,7 +23,7 @@
  * @subpackage Graph_Widget/includes
  * @author     Maciej Ziemichód <devziemichod@gmail.com>
  */
-class Graph_Widget_i18n {
+class Graph_Widget_I18n {
 
 
 	/**
@@ -39,9 +38,5 @@ class Graph_Widget_i18n {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
-
 	}
-
-
-
 }
