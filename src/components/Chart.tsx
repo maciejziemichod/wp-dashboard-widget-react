@@ -6,9 +6,9 @@ import {
 	Tooltip,
 	XAxis,
 	YAxis,
-} from "recharts";
-import { DataItem } from "../types.ts";
-import styles from "./Chart.module.css";
+} from 'recharts';
+import { DataItem } from '../types.ts';
+import styles from './Chart.module.css';
 
 type ChartProps = {
 	data: DataItem[];

@@ -1,4 +1,4 @@
-import { TimeSelectOptionKey, TimeSelectOptions } from "../types";
+import { TimeSelectOptionKey, TimeSelectOptions } from '../types';
 
 type SelectProps = {
 	onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -9,9 +9,9 @@ type SelectProps = {
 export function Select({ onSelectChange, value, options }: SelectProps) {
 	return (
 		<select value={value} onChange={onSelectChange}>
-			{Object.entries(options).map(([key, value]) => (
+			{Object.entries(options).map(([key, { label }]) => (
 				<option key={key} value={key}>
-					{value.label}
+					{label}
 				</option>
 			))}
 		</select>

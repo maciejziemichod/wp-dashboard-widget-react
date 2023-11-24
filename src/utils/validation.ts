@@ -1,4 +1,4 @@
-import { DataItem } from "../types";
+import { DataItem } from '../types';
 
 export function isDataValid(data: unknown): data is DataItem[] {
 	if (!Array.isArray(data)) {
@@ -7,10 +7,10 @@ export function isDataValid(data: unknown): data is DataItem[] {
 
 	return data.every(
 		(item) =>
-			typeof item === "object" &&
+			typeof item === 'object' &&
 			item !== null &&
 			!Array.isArray(item) &&
-			typeof item.value === "number" &&
-			typeof item.timestamp === "number",
+			typeof item.value === 'number' &&
+			typeof item.timestamp === 'number'
 	);
 }
