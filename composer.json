@@ -8,7 +8,8 @@
 		}
 	],
 	"scripts": {
-		"phpcs": "phpcs -ps . --standard=WordPress --ignore=*node_modules/*,*vendor/*,*build/*"
+		"phpcs": "phpcs -ps . --standard=WordPress --ignore=*node_modules/*,*vendor/*,*build/*",
+		"phpcbf": "phpcbf -ps . --standard=WordPress --ignore=*node_modules/*,*vendor/*,*build/*"
 	},
 	"require": {},
 	"require-dev": {
