@@ -110,6 +110,43 @@ class Graph_Widget_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'build/index.js', [], $this->version, [ 'strategy' => 'defer' ] );
 	}
 
+	public function register_rest_route(): void {
+		register_rest_route( "{$this->plugin_name}/v1", '/data', array(
+			'methods'  => 'GET',
+			'callback' => [ $this, 'getData' ],
+			'args'     => [
+				'count' => [
+					'validate_callback' => fn( mixed $param ): bool => is_numeric( $param )
+				]
+			]
+		) );
+	}
+
+	public function getData( WP_REST_Request $request ): WP_REST_Response {
+		$data = get_option( GRAPH_WIDGET_OPTION_KEY );
+		if ( $data === false ) {
+			return $this->getErrorRestResponse( 'Failed to retrieve data', 502 );
+		}
+
+		$requestedRange = $request->get_param( 'count' );
+		if ( $requestedRange === null ) {
+			return $this->getErrorRestResponse( 'Missing required "count" parameter' . $requestedRange, 400 );
+		}
+
+		$length = count( $data );
+		if ( $length < $requestedRange ) {
+			return $this->getErrorRestResponse( "Don't have enough data", 500 );
+		}
+
+		$requestedData = array_slice( $data, $length - $requestedRange );
+
+		return new WP_REST_Response( $requestedData );
+	}
+
+	private function getErrorRestResponse( string $message, int $status ): WP_REST_Response {
+		return new WP_REST_Response( [ 'message' => $message ], $status );
+	}
+
 	public function add_dashboard_widget(): void {
 		wp_add_dashboard_widget(
 			$this->widget_id,

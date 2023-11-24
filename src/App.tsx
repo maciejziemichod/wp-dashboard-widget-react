@@ -37,7 +37,7 @@ function App() {
 		let ignore = false;
 
 		fetch(
-			`${restUrl}myplugin/v1/data?count=${timeSelectOptions[selectedOption].value}`,
+			`${restUrl}graph-widget/v1/data?count=${timeSelectOptions[selectedOption].value}`,
 		)
 			.then((res) => {
 				if (!res.ok) {
