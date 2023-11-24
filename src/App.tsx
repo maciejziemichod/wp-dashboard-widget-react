@@ -2,9 +2,25 @@ import { useEffect, useState } from "react";
 import { ErrorMessage } from "./components/ErrorMessage";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import { isDataValid } from "./utils/validation";
-import { DataItem } from "./types";
+import { DataItem, TimeSelectOptionKey, TimeSelectOptions } from "./types";
+import { Select } from "./components/Select.tsx";
 
 declare const wpApiSettings: { root: string } | undefined;
+
+const timeSelectOptions: TimeSelectOptions = {
+	seven: {
+		value: 7,
+		label: "Last 7 days",
+	},
+	fifteen: {
+		value: 15,
+		label: "Last 15 days",
+	},
+	thirty: {
+		value: 30,
+		label: "Last month",
+	},
+} as const;
 
 function App() {
 	const restUrl = wpApiSettings?.root;
@@ -12,6 +28,8 @@ function App() {
 	const [error, setError] = useState(restUrl ? null : "No REST URL found.");
 	const [data, setData] = useState<DataItem[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [selectedOption, setSelectedOption] =
+		useState<TimeSelectOptionKey>("seven");
 
 	useEffect(() => {
 		fetch(`${restUrl}myplugin/v1/data`)
@@ -30,7 +48,14 @@ function App() {
 			.finally(() => {
 				setIsLoading(false);
 			});
-	}, []);
+	}, [selectedOption]);
+
+	function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>): void {
+		const value = e.target.value;
+		if (value in timeSelectOptions) {
+			setSelectedOption(value as TimeSelectOptionKey);
+		}
+	}
 
 	if (isLoading) {
 		return <LoadingSpinner />;
@@ -41,9 +66,17 @@ function App() {
 	}
 
 	return (
-		<p>
-			hello world, rest: {restUrl}, data: {JSON.stringify(data)}
-		</p>
+		<>
+			<Select
+				onSelectChange={handleSelectChange}
+				value={selectedOption}
+				options={timeSelectOptions}
+			/>
+			<p>
+				hello world, rest: {restUrl}, data: {JSON.stringify(data)}
+			</p>
+			<p>{selectedOption}</p>
+		</>
 	);
 }
 
