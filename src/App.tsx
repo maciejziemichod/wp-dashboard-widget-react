@@ -4,6 +4,8 @@ import { LoadingSpinner } from "./components/LoadingSpinner";
 import { isDataValid } from "./utils/validation";
 import { DataItem, TimeSelectOptionKey, TimeSelectOptions } from "./types";
 import { Select } from "./components/Select.tsx";
+import { Chart } from "./components/Chart.tsx";
+import styles from "./App.module.css";
 
 declare const wpApiSettings: { root: string } | undefined;
 
@@ -35,7 +37,15 @@ function App() {
 		let ignore = false;
 
 		fetch(`${restUrl}myplugin/v1/data`)
-			.then((res) => res.json())
+			.then((res) => {
+				if (!res.ok) {
+					throw new Error(
+						`Error response from the API. Status code: ${res.status}`,
+					);
+				}
+
+				return res.json();
+			})
 			.then((data: unknown) => {
 				if (ignore) {
 					return;
@@ -77,15 +87,16 @@ function App() {
 
 	return (
 		<>
-			<Select
-				onSelectChange={handleSelectChange}
-				value={selectedOption}
-				options={timeSelectOptions}
-			/>
-			<p>
-				hello world, rest: {restUrl}, data: {JSON.stringify(data)}
-			</p>
-			<p>{selectedOption}</p>
+			<div className={styles.header}>
+				<h2>Graph Widget</h2>
+				<Select
+					onSelectChange={handleSelectChange}
+					value={selectedOption}
+					options={timeSelectOptions}
+				/>
+			</div>
+
+			<Chart data={data} />
 		</>
 	);
 }
