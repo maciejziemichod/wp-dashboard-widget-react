@@ -71,7 +71,7 @@ class Graph_Widget_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles( string $hook_suffix ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -84,8 +84,15 @@ class Graph_Widget_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		if ( ! $this->isAdminDashboardPage( $hook_suffix ) ) {
+			return;
+		}
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'build/index.css', [], $this->version );
+	}
+
+	private function isAdminDashboardPage( string $hook ): bool {
+		return $hook === 'index.php';
 	}
 
 	/**
@@ -93,7 +100,7 @@ class Graph_Widget_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts( string $hook_suffix ) {
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -106,6 +113,10 @@ class Graph_Widget_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+
+		if ( ! $this->isAdminDashboardPage( $hook_suffix ) ) {
+			return;
+		}
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'build/index.js', [], $this->version, [ 'strategy' => 'defer' ] );
 	}
