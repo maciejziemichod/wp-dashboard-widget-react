@@ -36,7 +36,9 @@ function App() {
 	useEffect(() => {
 		let ignore = false;
 
-		fetch(`${restUrl}myplugin/v1/data`)
+		fetch(
+			`${restUrl}myplugin/v1/data?count=${timeSelectOptions[selectedOption].value}`,
+		)
 			.then((res) => {
 				if (!res.ok) {
 					throw new Error(

@@ -14,7 +14,7 @@ type ChartProps = {
 	data: DataItem[];
 };
 
-function formatTick(value: number): string {
+function timestampToDateStringFormatter(value: number): string {
 	return new Date(value).toLocaleDateString();
 }
 
@@ -34,9 +34,12 @@ export function Chart({ data }: ChartProps) {
 					}}
 				>
 					<CartesianGrid strokeDasharray="3 3" />
-					<XAxis dataKey="timestamp" tickFormatter={formatTick} />
+					<XAxis
+						dataKey="timestamp"
+						tickFormatter={timestampToDateStringFormatter}
+					/>
 					<YAxis />
-					<Tooltip />
+					<Tooltip labelFormatter={timestampToDateStringFormatter} />
 					<Line type="monotone" dataKey="value" stroke="#0e7490" />
 				</LineChart>
 			</ResponsiveContainer>
