@@ -29,12 +29,25 @@ class Graph_Widget_Activator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function activate() {
+	public static function activate(): void {
 		if ( ! defined( 'GRAPH_WIDGET_OPTION_KEY' ) ) {
 			wp_die( '"GRAPH_WIDGET_OPTION_KEY" constant wasn\'t found during activation' );
 		}
 
-		add_option( GRAPH_WIDGET_OPTION_KEY, [ [ 'time' => 123, 'value' => 1 ], [ 'time' => 123, 'value' => 1 ] ] );
+		add_option( GRAPH_WIDGET_OPTION_KEY, self::generateDummyData() );
 	}
 
+	private static function generateDummyData(): array {
+		$currentDate = new DateTime();
+		$data        = [];
+
+		for ( $i = 59; $i >= 0; $i -- ) {
+			$timestamp = ( $currentDate->getTimestamp() - $i * 24 * 60 * 60 ) * 1000;
+			$value     = rand( 1, 100 );
+
+			$data[] = [ 'timestamp' => $timestamp, 'value' => $value ];
+		}
+
+		return $data;
+	}
 }
