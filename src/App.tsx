@@ -32,9 +32,15 @@ function App() {
 		useState<TimeSelectOptionKey>("seven");
 
 	useEffect(() => {
+		let ignore = false;
+
 		fetch(`${restUrl}myplugin/v1/data`)
 			.then((res) => res.json())
 			.then((data: unknown) => {
+				if (ignore) {
+					return;
+				}
+
 				if (!isDataValid(data)) {
 					setError("Incorrect format of data received from API");
 					return;
@@ -48,6 +54,10 @@ function App() {
 			.finally(() => {
 				setIsLoading(false);
 			});
+
+		return () => {
+			ignore = true;
+		};
 	}, [selectedOption]);
 
 	function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>): void {
